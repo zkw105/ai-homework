@@ -1,0 +1,66 @@
+{
+    "1": {
+        "class_type": "CheckpointLoaderSimple",
+        "inputs": {
+            "ckpt_name": "sd_xl_base_1.0.safetensors"
+        }
+    },
+    "2": {
+        "class_type": "CLIPTextEncode",
+        "inputs": {
+            "clip": ["1", 1],
+            "text": "masterpiece, best quality, high quality"
+        }
+    },
+    "3": {
+        "class_type": "CLIPTextEncode",
+        "inputs": {
+            "clip": ["1", 1],
+            "text": "PROMPT_PLACEHOLDER"
+        }
+    },
+    "4": {
+        "class_type": "CLIPTextEncode",
+        "inputs": {
+            "clip": ["1", 1],
+            "text": "NEGATIVE_PROMPT_PLACEHOLDER"
+        }
+    },
+    "5": {
+        "class_type": "EmptyLatentImage",
+        "inputs": {
+            "batch_size": 1,
+            "height": 768,
+            "width": 512
+        }
+    },
+    "6": {
+        "class_type": "KSampler",
+        "inputs": {
+            "cfg": 7,
+            "denoise": 1,
+            "latent_image": ["5", 0],
+            "model": ["1", 0],
+            "negative": ["4", 0],
+            "positive": ["3", 0],
+            "sampler_name": "euler",
+            "scheduler": "normal",
+            "seed": 8888,
+            "steps": 30
+        }
+    },
+    "7": {
+        "class_type": "VAEDecode",
+        "inputs": {
+            "samples": ["6", 0],
+            "vae": ["1", 2]
+        }
+    },
+    "8": {
+        "class_type": "SaveImage",
+        "inputs": {
+            "filename_prefix": "ComfyUI/output/test_image",
+            "images": ["7", 0]
+        }
+    }
+} 
